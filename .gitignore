@@ -1,0 +1,6 @@
+#files
+node_modules
+
+config.env
+*.env
+.history
