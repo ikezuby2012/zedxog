@@ -2,12 +2,18 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const xss = require("xss-clean");
+const compression = require('compression');
+const helmet = require('helmet')
 
 const app = express();
 
 const userRoute = require("./routes/userRoute");
 
 const AppError = require("./utils/appError");
+
+app.use(compression());
+
+app.use(helmet());
 //cors
 app.use(cors());
 //<-- body parser parsing data to the backend
