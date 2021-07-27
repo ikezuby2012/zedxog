@@ -11,7 +11,7 @@ dotenv.config({path: "./config.env"});
 const app = require ("./app");
 
 if (process.env.NODE_ENV === "production"){
-    mongoose.connect(process.env.DATABASE_ATLAS, {
+    mongoose.createConnection(process.env.DATABASE_ATLAS, {
         useNewUrlParser: true,
         useCreateIndex: true,
         useFindAndModify: true
