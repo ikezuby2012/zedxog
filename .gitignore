@@ -1,5 +1,6 @@
 #files
 node_modules
+sure
 
 config.env
 *.env

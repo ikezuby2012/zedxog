@@ -19,6 +19,9 @@ app.use(xss());
 if(process.env.NODE_ENV === "development"){
     app.use(morgan("dev"));
 }
+app.get("/", (req, res) => {
+    res.send("hello world");
+})
 app.use((req, res, next) => {
     req.requestTime = new Date().toISOString();
     next();
