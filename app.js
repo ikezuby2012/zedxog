@@ -11,6 +11,8 @@ const userRoute = require("./routes/userRoute");
 
 const AppError = require("./utils/appError");
 
+//<-- serving static files
+app.use(express.static(`${__dirname}/public`));
 app.use(compression());
 
 app.use(helmet());
@@ -18,11 +20,11 @@ app.use(helmet());
 app.use(cors());
 //<-- body parser parsing data to the backend
 app.use(express.json());
-app.use(express.urlencoded({extended: true, limit: "10kb"}));
+app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 //data sanitisation against xss attacks
 app.use(xss());
 
-if(process.env.NODE_ENV === "development"){
+if (process.env.NODE_ENV === "development") {
     app.use(morgan("dev"));
 }
 app.get("/", (req, res) => {
@@ -35,8 +37,14 @@ app.use((req, res, next) => {
 
 app.use("/api/v4/user", userRoute);
 
+//SERVE CLIENT ROUTES
+app.use((req, res, next) => {
+    res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+
 //UNSPECIFIED ROUTE 
-app.all("*", (req, res,next) => {
+app.all("*", (req, res, next) => {
     next(new AppError(`can't find ${req.originalUrl} on this server`, 404));
 });
 
@@ -57,9 +65,9 @@ const handleValidationErrorDB = err => {
     return new AppError(message, 400);
 };
 
-app.use((err, req,res,next) => {
+app.use((err, req, res, next) => {
     err.statusCode = err.statusCode || 500;
-    err.status = err.status || "error"; 
+    err.status = err.status || "error";
 
     if (process.env.NODE_ENV === "development") {
         if (req.originalUrl.startsWith("/api")) {
@@ -71,9 +79,9 @@ app.use((err, req,res,next) => {
             });
         }
     }
-    
-    if (process.env.NODE_ENV === "production"){
-        let error = {...err};
+
+    if (process.env.NODE_ENV === "production") {
+        let error = { ...err };
         error.message = err.message;
         if (error.name === "CastError") error = handleCastErrorDB(error);
         if (error.code === 11000) error = handleDuplicateErrorDB(error);

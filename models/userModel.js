@@ -24,7 +24,11 @@ const userSchema = new Schema({
     createdAt: {
         type: Date,
         default: Date.now()
-    }
+    },
+from: {
+ type: String,
+default: "zedxog.com"
+}
 });
 
 userSchema.pre("/^find/", function(next) {
