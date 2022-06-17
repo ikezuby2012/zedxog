@@ -5,3 +5,4 @@ sure
 config.env
 *.env
 .history
+./sure
