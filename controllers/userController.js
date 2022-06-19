@@ -24,13 +24,11 @@ exports.createUser = catchAsync(async (req, res, next) => {
     console.log(newUser);
     
     // send mail
-    await new Email(newUser).sendMessage();
+    // await new Email(newUser).sendMessage();
     
     res.status(201).json({
         status: "success",
-        data: {
-            user: newUser
-        }
+        data: newUser
     });
 });
 

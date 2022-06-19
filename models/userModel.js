@@ -10,7 +10,7 @@ const userSchema = new Schema({
     email: {
         type: String,
         required: [true, 'please provide an email address'],
-        unique: true,
+        // unique: true,
         lowerCase: true,
         validate: [validator.isEmail, "please provide a valid email"]
 
@@ -25,14 +25,14 @@ const userSchema = new Schema({
         type: Date,
         default: Date.now()
     },
-from: {
- type: String,
-default: "zedxog.com"
-}
+    from: {
+        type: String,
+        default: "zedxog.com"
+    }
 });
 
-userSchema.pre("/^find/", function(next) {
-    this.find({__v: {select: false}})
+userSchema.pre("/^find/", function (next) {
+    this.find({ __v: { select: false } })
     next();
 })
 const User = model("User", userSchema);
